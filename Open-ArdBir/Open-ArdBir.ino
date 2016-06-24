@@ -7,11 +7,12 @@
 // 1 Brauduino Original (Matho's PCB)
 // 2 Brauduino by DanielXan
 // 3 ArdBir by DanielXan
-#define PCBType 3
+// 5 ArdBir on Sensor Shield v5.0
+#define PCBType 5
 
 // SET LCD and Language
 // LCD 16 or 20
-#define LCDType 20
+#define LCDType 16
 
 // LANGUAGE
 // 1 English
@@ -20,7 +21,7 @@
 // 4 Portuguese
 // 5 Russian    (only 20 x 4)
 // 6 Norwegian  (only 20 x 4)
-#define LCDLanguage 2
+#define LCDLanguage 4
 
 // ==============================================
 // END OF SETTING SECTION
@@ -223,8 +224,8 @@ EEPROM MAP
 
 /// FOR DEBUGGING ///
 #define StartSprite   false
-#define Sprite        true
-#define Crediti       true
+#define Sprite        false
+#define Crediti       false
 
 #define ToneOnBuzzer  false
 
@@ -240,7 +241,9 @@ EEPROM MAP
 
 //libraries
 #include <EEPROM.h>
-#include <LiquidCrystal.h>
+//#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
+
 #include <OneWire.h>
 #include <PID_v1.h>
 
@@ -253,6 +256,8 @@ EEPROM MAP
   #include "Pcb_ArdBir_DanielXan.h"
 #elif PCBType == 4 
   #include "Pcb_11s.h"
+#elif PCBType == 5
+  #include "Pcb_ArdBir_SensorShieldv5.h"
 #endif
 
 
@@ -412,7 +417,8 @@ void Temperature() { // reads the DS18B20 temerature probe
   
   // start conversion and return
   if (!(Conv_start)) {
-    ds.write(0x44, 0);
+    //ds.write(0x44, 0);
+    ds.write(0x44, 1);
     Conv_start = true;
     return;
   }
